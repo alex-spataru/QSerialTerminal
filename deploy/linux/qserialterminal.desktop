@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=QSerialTerminal
+Comment=Simple serial port terminal application
+Exec=qserialterminal
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Development;Qt;
+Icon=qserialterminal

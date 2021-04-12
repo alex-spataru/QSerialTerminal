@@ -23,10 +23,10 @@ Unicode True
 !include "FileFunc.nsh"
 !include "LogicLib.nsh"
 
-!define APPNAME                      "Qt App"
-!define EXECNAME                     "QtApp"
+!define APPNAME                      "qserialterminalinal"
+!define EXECNAME                     "qserialterminal"
 !define COMPANYNAME                  "Alex Spataru"
-!define DESCRIPTION                  "An awesome description"
+!define DESCRIPTION                  "Serial interface application"
 !define VERSIONMAJOR                 1
 !define VERSIONMINOR                 0
 !define VERSIONBUILD                 0
@@ -36,7 +36,7 @@ Unicode True
 !define MUI_FINISHPAGE_RUN_TEXT      "Run ${APPNAME}"
 !define MUI_FINISHPAGE_RUN_FUNCTION  "RunApplication"
 !define MUI_FINISHPAGE_LINK          "Visit project website"
-!define MUI_FINISHPAGE_LINK_LOCATION "http://awesome-qt-app.org/"
+!define MUI_FINISHPAGE_LINK_LOCATION "http://github.com/alex-spataru"
 !define MUI_WELCOMEPAGE_TITLE        "Welcome to the ${APPNAME} installer!"
 
 !insertmacro MUI_PAGE_WELCOME

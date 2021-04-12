@@ -1,17 +1,23 @@
 <RCC>
     <qresource prefix="/">
+        <file>icons/close.svg</file>
+        <file>icons/connect.svg</file>
+        <file>icons/developer-board.svg</file>
+        <file>icons/device-hub.svg</file>
+        <file>icons/disconnect.svg</file>
+        <file>icons/filter.svg</file>
+        <file>icons/flag.svg</file>
+        <file>icons/help.svg</file>
+        <file>icons/memory.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/toolbox.svg</file>
+        <file>icons/usb.svg</file>
+        <file>icons/workspaces.svg</file>
+        <file>images/icon.svg</file>
+        <file>qml/Windows/SerialSetup.qml</file>
         <file>qml/main.qml</file>
         <file>qml/UI.qml</file>
-        <file>translations/en.qm</file>
-        <file>translations/en.ts</file>
-        <file>translations/es.qm</file>
-        <file>translations/es.ts</file>
-        <file>translations/zh.qm</file>
-        <file>translations/zh.ts</file>
-        <file>icons/close.svg</file>
-        <file>icons/update.svg</file>
-        <file>icons/website.svg</file>
-        <file>icons/bug.svg</file>
-        <file>images/icon.svg</file>
+        <file>qml/Widgets/Terminal.qml</file>
+        <file>icons/delete.svg</file>
     </qresource>
 </RCC>

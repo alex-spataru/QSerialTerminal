@@ -25,6 +25,9 @@ import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
+import "Windows" as Windows
+import "Widgets" as Widgets
+
 Page {
     id: root
 
@@ -62,44 +65,84 @@ Page {
             anchors.fill: parent
             anchors.margins: app.spacing
 
-            Button {
-                flat: true
-                icon.width: 24
-                icon.height: 24
-                Layout.fillHeight: true
-                icon.color: palette.text
-                icon.source: "qrc:/icons/update.svg"
-                text: qsTr("Check for updates")
-                onClicked: {
-                    Cpp_Updater.setNotifyOnFinish(Cpp_AppUpdaterUrl, true)
-                    Cpp_Updater.checkForUpdates(Cpp_AppUpdaterUrl)
+            //
+            // Serial port selector
+            //
+            Label {
+                text: qsTr("Port") + ":"
+                Layout.alignment: Qt.AlignVCenter
+            } ComboBox {
+                id: _portCombo
+                Layout.minimumWidth: 156
+                Layout.maximumWidth: 156
+                Layout.alignment: Qt.AlignVCenter
+                model: Cpp_Serial_Manager.portList
+                currentIndex: Cpp_Serial_Manager.portIndex
+                onCurrentIndexChanged: {
+                    if (currentIndex !== Cpp_Serial_Manager.portIndex)
+                        Cpp_Serial_Manager.portIndex = currentIndex
                 }
             }
 
-            Button {
-                flat: true
-                icon.width: 24
-                icon.height: 24
-                Layout.fillHeight: true
-                icon.color: palette.text
-                icon.source: "qrc:/icons/bug.svg"
-                text: qsTr("Application log")
-                onClicked: Cpp_Misc_Utilities.openLogFile()
+            //
+            // Baud rate selector
+            //
+            Label {
+                text: qsTr("Baud rate") + ":"
+                Layout.alignment: Qt.AlignVCenter
+            } ComboBox {
+                id: _baudCombo
+                Layout.minimumWidth: 128
+                Layout.maximumWidth: 128
+                Layout.alignment: Qt.AlignVCenter
+                model: Cpp_Serial_Manager.baudRateList
+                currentIndex: Cpp_Serial_Manager.baudRateIndex
+                onCurrentIndexChanged: {
+                    if (currentIndex !== Cpp_Serial_Manager.baudRateIndex)
+                        Cpp_Serial_Manager.baudRateIndex = currentIndex
+                }
             }
 
+            //
+            // Horizontal spacing
+            //
             Item {
                 Layout.fillWidth: true
             }
 
-            Label {
+            //
+            // Serial setup button
+            //
+            Button {
+                flat: true
+                icon.width: 24
+                icon.height: 24
+                text: qsTr("Setup") + " "
+                icon.color: palette.buttonText
+                icon.source: "qrc:/icons/usb.svg"
                 Layout.alignment: Qt.AlignVCenter
-                text: qsTr("Language") + ":"
+                onClicked: _serialSetup.showNormal()
             }
 
-            ComboBox {
+            //
+            // Connect/disconnect button
+            //
+            Button {
+                flat: true
+                icon.width: 24
+                icon.height: 24
+                font.bold: true
+                opacity: enabled ? 1 : 0.5
+                icon.color: palette.buttonText
                 Layout.alignment: Qt.AlignVCenter
-                model: Cpp_Misc_Translator.availableLanguages
-                onCurrentIndexChanged: Cpp_Misc_Translator.setLanguage(currentIndex)
+                checked: Cpp_Serial_Manager.connected
+                enabled: Cpp_Serial_Manager.configurationOk
+                onClicked: Cpp_Serial_Manager.toggleConnection()
+                palette.buttonText: checked ? "#d72d60" : "#2eed5c"
+                text: (checked ? qsTr("Disconnect") : qsTr("Connect")) + " "
+                icon.source: checked ? "qrc:/icons/disconnect.svg" : "qrc:/icons/connect.svg"
+
+                Behavior on opacity {NumberAnimation{}}
             }
         }
     }
@@ -112,55 +155,18 @@ Page {
     }
 
     //
-    // Image, labels & buttons
+    // Terminal widget
     //
-    ColumnLayout {
-        spacing: app.spacing
-        anchors.centerIn: parent
+    Widgets.Terminal {
+        id: _terminal
+        anchors.fill: parent
+        //anchors.margins: app.spacing
+    }
 
-        Image {
-            source: Cpp_AppIcon
-            sourceSize: Qt.size(256, 188)
-            Layout.alignment: Qt.AlignHCenter
-        }
-
-        Item {
-            Layout.minimumHeight: app.spacing
-        }
-
-        Label {
-            font.bold: true
-            font.pixelSize: 24
-            Layout.alignment: Qt.AlignHCenter
-            text: qsTr("Hello World")
-        }
-
-        Label {
-            font.pixelSize: 18
-            Layout.alignment: Qt.AlignHCenter
-            text: qsTr("Click on any button")
-        }
-
-        Item {
-            Layout.minimumHeight: app.spacing
-        }
-
-        Button {
-            icon.color: palette.text
-            Layout.minimumWidth: 156
-            Layout.alignment: Qt.AlignHCenter
-            icon.source: "qrc:/icons/close.svg"
-            text: qsTr("Close")
-            onClicked: app.close()
-        }
-
-        Button {
-            icon.color: palette.text
-            Layout.minimumWidth: 156
-            Layout.alignment: Qt.AlignHCenter
-            icon.source: "qrc:/icons/website.svg"
-            text: qsTr("Visit website")
-            onClicked: Qt.openUrlExternally(Cpp_AppOrganizationDomain)
-        }
+    //
+    // Serial setup button
+    //
+    Windows.SerialSetup {
+        id: _serialSetup
     }
 }

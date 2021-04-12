@@ -80,14 +80,6 @@ void Utilities::aboutQt()
 }
 
 /**
- * Displays the location of the current log file in the Finder window
- */
-void Utilities::openLogFile()
-{
-    revealFile(LOG_FILE);
-}
-
-/**
  * Changes the application palette so that a dark UI can be displayed
  */
 void Utilities::configureDarkUi()

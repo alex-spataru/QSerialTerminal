@@ -27,15 +27,11 @@
 #include <QStyleFactory>
 #include <QQmlApplicationEngine>
 
-#include <Logger.h>
-#include <FileAppender.h>
-#include <ConsoleAppender.h>
-
-#include <QSimpleUpdater.h>
-
 #include <AppInfo.h>
 #include <Misc/Utilities.h>
-#include <Misc/Translator.h>
+#include <Serial/Console.h>
+#include <Serial/Manager.h>
+#include <UI/TerminalWidget.h>
 
 #ifdef Q_OS_WIN
 #    include <windows.h>
@@ -76,69 +72,35 @@ int main(int argc, char **argv)
     app.setOrganizationDomain(APP_SUPPORT_URL);
     app.setStyle(QStyleFactory::create("Fusion"));
 
-    // Configure CuteLogger
-    auto fileAppender = new FileAppender;
-    auto consoleAppender = new ConsoleAppender;
-    fileAppender->setFormat(LOG_FORMAT);
-    fileAppender->setFileName(LOG_FILE);
-    consoleAppender->setFormat(LOG_FORMAT);
-    cuteLogger->registerAppender(fileAppender);
-    cuteLogger->registerAppender(consoleAppender);
-
-    // Begin logging
-    LOG_INFO() << QDateTime::currentDateTime();
-    LOG_INFO() << APP_NAME << APP_VERSION;
-    LOG_INFO() << "Running on" << QSysInfo::prettyProductName().toStdString().c_str();
-
     // Init application modules
     QQmlApplicationEngine engine;
-    auto updater = QSimpleUpdater::getInstance();
+    auto manager = Serial::Manager::getInstance();
+    auto console = Serial::Console::getInstance();
     auto utilities = Misc::Utilities::getInstance();
-    auto translator = Misc::Translator::getInstance();
+
+    // Register custom QML properties
+    qmlRegisterType<UI::TerminalWidget>("UI", 1, 0, "TerminalWidget");
 
     // Configure dark UI
     Misc::Utilities::configureDarkUi();
 
-    // Automatically re-translate UI
-    QObject::connect(translator, &Misc::Translator::languageChanged, &engine,
-                     &QQmlApplicationEngine::retranslate);
-
-    // Log status
-    LOG_INFO() << "Finished creating application modules";
-
     // Init QML interface
     auto c = engine.rootContext();
     QQuickStyle::setStyle("Fusion");
-    c->setContextProperty("Cpp_Updater", updater);
-    c->setContextProperty("Cpp_Misc_Utilities", utilities);
-    c->setContextProperty("Cpp_Misc_Translator", translator);
     c->setContextProperty("Cpp_AppIcon", "qrc" APP_ICON);
+    c->setContextProperty("Cpp_Serial_Manager", manager);
+    c->setContextProperty("Cpp_Serial_Console", console);
+    c->setContextProperty("Cpp_Misc_Utilities", utilities);
     c->setContextProperty("Cpp_AppName", app.applicationName());
-    c->setContextProperty("Cpp_AppUpdaterUrl", APP_UPDATER_URL);
     c->setContextProperty("Cpp_AppVersion", app.applicationVersion());
     c->setContextProperty("Cpp_AppOrganization", app.organizationName());
     c->setContextProperty("Cpp_AppOrganizationDomain", app.organizationDomain());
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
-    // Log QML engine status
-    LOG_INFO() << "Finished loading QML interface";
-
     // QML error, exit
     if (engine.rootObjects().isEmpty())
-    {
-        LOG_WARNING() << "QML engine error";
         return EXIT_FAILURE;
-    }
-
-    // Configure the updater
-    LOG_INFO() << "Configuring QSimpleUpdater...";
-    updater->setNotifyOnUpdate(APP_UPDATER_URL, true);
-    updater->setNotifyOnFinish(APP_UPDATER_URL, false);
-    updater->setMandatoryUpdate(APP_UPDATER_URL, false);
-    LOG_INFO() << "QSimpleUpdater configuration finished!";
 
     // Enter application event loop
-    auto code = app.exec();
-    LOG_INFO() << "Application exit code" << code;
-    return code;
+    return app.exec();
 }

@@ -21,7 +21,6 @@
  */
 
 import QtQuick 2.12
-import QtQuick.Dialogs 1.1
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
@@ -51,13 +50,6 @@ ApplicationWindow {
             return "Monospace"
         }
     }
-
-    //
-    // We use this variable to ask the user if he/she wants to enable/disable
-    // automatic update checking on the second run
-    //
-    property int appLaunchStatus: 0
-    property bool automaticUpdates: false
 
     //
     // Hacks to fix window maximized behavior
@@ -128,22 +120,6 @@ ApplicationWindow {
             app.showMaximized()
         else
             app.showNormal()
-
-        // Increment app launch count until 3:
-        // Value & meaning:
-        // - 1: first launch
-        // - 2: second launch, ask to enable automatic updater
-        // - 3: we don't care the number of times the user launched the app
-        if (appLaunchStatus < 3)
-            ++appLaunchStatus
-
-        // Second launch ask user if he/she wants to enable automatic updates
-        if (appLaunchStatus == 2)
-            automaticUpdatesMessageDialog.visible = true
-
-        // Check for updates (if we are allowed)
-        if (automaticUpdates)
-            Cpp_Updater.checkForUpdates(Cpp_AppUpdaterUrl)
     }
 
     //
@@ -154,40 +130,11 @@ ApplicationWindow {
         property alias appY: app.y
         property alias appW: app.width
         property alias appH: app.height
-        property alias appStatus: app.appLaunchStatus
-        property alias autoUpdater: app.automaticUpdates
         property alias appMaximized: app.windowMaximized
     }
 
     //
-    // Enable/disable automatic updates dialog
-    //
-    MessageDialog {
-        id: automaticUpdatesMessageDialog
-
-        title: Cpp_AppName
-        icon: StandardIcon.Question
-        modality: Qt.ApplicationModal
-        standardButtons: StandardButton.Yes | StandardButton.No
-        text: "<h3>" + qsTr("Check for updates automatically?") + "</h3>"
-        informativeText: qsTr("Should %1 automatically check for updates? " +
-                              "You can always check for updates manually from " +
-                              "the \"About\" dialog").arg(Cpp_AppName);
-
-        // Behavior when the user clicks on "Yes"
-        onAccepted: {
-            app.automaticUpdates = true
-            Cpp_Updater.checkForUpdates(Cpp_AppUpdaterUrl)
-        }
-
-        // Behavior when the user clicks on "No"
-        onRejected: {
-            app.automaticUpdates = false
-        }
-    }
-
-    //
-    // UI content
+    // UI content loader
     //
     Loader {
         id: loader

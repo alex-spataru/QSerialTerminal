@@ -14,18 +14,18 @@ CONFIG += c++11
 #-------------------------------------------------------------------------------
 
 TEMPLATE = app
-TARGET = QtApp
+TARGET = qserialterminal
 
 CONFIG += qtc_runnable
 CONFIG += resources_big
 CONFIG += qtquickcompiler
 
 QT += xml
-QT += sql
 QT += svg
 QT += core
 QT += quick
 QT += widgets
+QT += serialport
 QT += quickcontrols2
 
 QTPLUGIN += qsvg
@@ -43,12 +43,6 @@ QTPLUGIN += qsvg
     QMAKE_CXXFLAGS_RELEASE -= /O
     QMAKE_CXXFLAGS_RELEASE *= /O2
 }
-    
-#-------------------------------------------------------------------------------
-# Libraries
-#-------------------------------------------------------------------------------
-
-include(libs/Libraries.pri)
 
 #-------------------------------------------------------------------------------
 # Deploy options
@@ -66,12 +60,10 @@ macx* {
 }
 
 linux:!android {
-    TARGET = qt-app
-
     target.path = /usr/bin
     icon.path = /usr/share/pixmaps
     desktop.path = /usr/share/applications
-    icon.files += deploy/linux/*.png
+    icon.files += deploy/linux/*.svg
     desktop.files += deploy/linux/*.desktop
 
     INSTALLS += target desktop icon
@@ -83,26 +75,33 @@ linux:!android {
 
 INCLUDEPATH += $$PWD/src
 
+HEADERS += \
+    src/AppInfo.h \
+    src/CSV/Sender.h \
+    src/Misc/Utilities.h \
+    src/Serial/Console.h \
+    src/Serial/Manager.h \
+    src/UI/TerminalWidget.h
+
+SOURCES += \
+    src/CSV/Sender.cpp \
+    src/Misc/Utilities.cpp \
+    src/Serial/Console.cpp \
+    src/Serial/Manager.cpp \
+    src/UI/TerminalWidget.cpp \
+    src/main.cpp
+
+#-------------------------------------------------------------------------------
+# Import application resources & QML UI files
+#-------------------------------------------------------------------------------
+
 RESOURCES += \
     assets/assets.qrc
 
 DISTFILES += \
-    assets/qml/*.qml
-
-TRANSLATIONS += \
-    assets/translations/en.ts \
-    assets/translations/es.ts \
-    assets/translations/zh.ts
-
-HEADERS += \
-    src/AppInfo.h \
-    src/Misc/Utilities.h \
-    src/Misc/Translator.h
-
-SOURCES += \
-    src/Misc/Utilities.cpp \
-    src/Misc/Translator.cpp \
-    src/main.cpp
+    assets/qml/*.qml \
+    assets/qml/Windows/*.qml \
+    assets/qml/Widgets/*.qml
 
 #-------------------------------------------------------------------------------
 # Deploy files
