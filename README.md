@@ -2,7 +2,7 @@
     <img width="192px" height="192px" src="doc/icon.svg" align="right" />
 </a>
 
-# QSerialTerm
+# QSerialTerminal
 
 [![Build Status](https://github.com/alex-spataru/QSerialTerminal/workflows/Build/badge.svg)](https://github.com/alex-spataru/QSerialTerminal/actions)
 
