@@ -19,5 +19,7 @@
         <file>qml/UI.qml</file>
         <file>qml/Widgets/Terminal.qml</file>
         <file>icons/delete.svg</file>
+        <file>icons/attach.svg</file>
+        <file>icons/send.svg</file>
     </qresource>
 </RCC>

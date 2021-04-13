@@ -530,7 +530,7 @@ void Console::onDataSent(const QByteArray &data)
     header = dateTime.toString("[HH:mm:ss.zzz] ") + "Written data:\n";
 
     if (!data.isEmpty())
-        append(header + dataToString(data) + "\n");
+        append(header + dataToString(data) + "\n\n");
 }
 
 /**

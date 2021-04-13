@@ -72,8 +72,6 @@ Control {
     // Save settings
     //
     Settings {
-        property alias hex: hexCheckbox.checked
-        property alias echo: echoCheckbox.checked
         property alias autoscroll: autoscrollCheck.checked
         property alias vt100Enabled: textEdit.vt100emulation
         property alias lineEnding: lineEndingCombo.currentIndex
@@ -205,6 +203,19 @@ Control {
         RowLayout {
             Layout.fillWidth: true
 
+            //
+            // Send file button
+            //
+            Button {
+                height: 24
+                Layout.maximumWidth: 32
+                icon.color: palette.text
+                icon.source: "qrc:/icons/attach.svg"
+            }
+
+            //
+            // Send data textfield
+            //
             TextField {
                 id: send
                 height: 24
@@ -218,7 +229,7 @@ Control {
                 // Validate hex strings
                 //
                 validator: RegExpValidator {
-                    regExp: hexCheckbox.checked ? /^(?:([a-f0-9]{2})\s*)+$/i : /[\s\S]*/
+                    regExp: displayModeCombo.currentIndex === 1 ? /^(?:([a-f0-9]{2})\s*)+$/i : /[\s\S]*/
                 }
 
                 //
@@ -230,7 +241,7 @@ Control {
                 // Add space automatically in hex view
                 //
                 onTextChanged: {
-                    if (hexCheckbox.checked)
+                    if (displayModeCombo.currentIndex === 1)
                         send.text = Cpp_Serial_Console.formatUserHex(send.text)
                 }
 
@@ -251,29 +262,15 @@ Control {
                 }
             }
 
-            CheckBox {
-                text: "HEX"
-                id: hexCheckbox
-                opacity: enabled ? 1 : 0.5
-                checked: Cpp_Serial_Console.dataMode === 1
-                onCheckedChanged: {
-                    if (checked)
-                        Cpp_Serial_Console.dataMode = 1
-                    else
-                        Cpp_Serial_Console.dataMode = 0
-                }
-            }
-
-            CheckBox {
-                visible: false
-                text: qsTr("Echo")
-                id: echoCheckbox
-                opacity: enabled ? 1 : 0.5
-                checked: Cpp_Serial_Console.echo
-                onCheckedChanged: {
-                    if (Cpp_Serial_Console.echo != checked)
-                        Cpp_Serial_Console.echo = checked
-                }
+            //
+            // Send file button
+            //
+            Button {
+                height: 24
+                text: qsTr("Send")
+                icon.color: palette.text
+                onClicked: root.sendData()
+                icon.source: "qrc:/icons/send.svg"
             }
         }
 
@@ -315,8 +312,10 @@ Control {
                 model: Cpp_Serial_Console.displayModes()
                 currentIndex: Cpp_Serial_Console.displayMode
                 onCurrentIndexChanged: {
-                    if (currentIndex != Cpp_Serial_Console.displayMode)
+                    if (currentIndex != Cpp_Serial_Console.displayMode) {
                         Cpp_Serial_Console.displayMode = currentIndex
+                        Cpp_Serial_Console.dataMode = currentIndex
+                    }
                 }
             }
 
