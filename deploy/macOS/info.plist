@@ -5,17 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>qserialterminal</string>
+	<string>QSerialTerminal</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Copyright © 2021 Alex Spataru</string>
 	<key>CFBundleIconFile</key>
 	<string>icon</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.alex-spataru.rtos</string>
+	<string>org.alex-spataru.qserialterminal</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>qserialterminalinal</string>
+	<string>QSerialTerminal</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
