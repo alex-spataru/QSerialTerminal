@@ -5,6 +5,7 @@
 # QSerialTerminal
 
 [![Build Status](https://github.com/alex-spataru/QSerialTerminal/workflows/Build/badge.svg)](https://github.com/alex-spataru/QSerialTerminal/actions)
+[![Github All Releases](https://img.shields.io/github/downloads/alex-spataru/QSerialTerminal/total.svg)](https://github.com/alex-spataru/QSerialTerminal/releases/)
 
 A simple, cross-platform serial port terminal application written with Qt/QML.
 
