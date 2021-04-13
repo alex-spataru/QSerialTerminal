@@ -51,6 +51,9 @@ FileTransmission::FileTransmission()
     auto mgr = Manager::getInstance();
     connect(mgr, &Manager::closed, this, &FileTransmission::stopTransmission);
 
+    // Refresh UI when serial device connection status changes
+    connect(mgr, &Manager::connectedChanged, this, &FileTransmission::fileChanged);
+
     // Close file before application quits
     connect(qApp, &QApplication::aboutToQuit, this, &FileTransmission::closeFile);
 }
@@ -84,11 +87,12 @@ bool FileTransmission::active() const
 }
 
 /**
- * Returns @c true if a file is currently selected for transmission
+ * Returns @c true if a file is currently selected for transmission and if the
+ * serial port device is available.
  */
 bool FileTransmission::fileOpen() const
 {
-    return m_file.isOpen();
+    return m_file.isOpen() && Manager::getInstance()->connected();
 }
 
 /**
@@ -96,7 +100,7 @@ bool FileTransmission::fileOpen() const
  */
 QString FileTransmission::fileName() const
 {
-    if (!fileOpen())
+    if (!m_file.isOpen())
         return tr("No file selected...");
 
     return QFileInfo(m_file).fileName();
@@ -246,6 +250,9 @@ void FileTransmission::sendLine()
         auto line = m_stream->readLine();
         if (!line.isEmpty())
         {
+            if (!line.endsWith("\n"))
+                line.append("\n");
+
             Manager::getInstance()->writeData(line.toUtf8());
             emit transmissionProgressChanged();
         }
