@@ -31,6 +31,11 @@ Control {
     id: root
 
     //
+    // Signals
+    //
+    signal transmissionClicked()
+
+    //
     // Custom properties
     //
     property alias vt100emulation: textEdit.vt100emulation
@@ -202,6 +207,9 @@ Control {
         //
         RowLayout {
             Layout.fillWidth: true
+            opacity: enabled ? 1 : 0.5
+            enabled: Cpp_Serial_Manager.connected
+            Behavior on opacity {NumberAnimation{}}
 
             //
             // Send file button
@@ -211,6 +219,7 @@ Control {
                 Layout.maximumWidth: 32
                 icon.color: palette.text
                 icon.source: "qrc:/icons/attach.svg"
+                onClicked: root.transmissionClicked()
             }
 
             //
@@ -279,6 +288,9 @@ Control {
         //
         RowLayout {
             Layout.fillWidth: true
+            opacity: enabled ? 1 : 0.5
+            enabled: Cpp_Serial_Manager.connected
+            Behavior on opacity {NumberAnimation{}}
 
             CheckBox {
                 id: autoscrollCheck

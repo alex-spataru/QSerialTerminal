@@ -21,5 +21,6 @@
         <file>icons/delete.svg</file>
         <file>icons/attach.svg</file>
         <file>icons/send.svg</file>
+        <file>qml/Windows/FileTransmission.qml</file>
     </qresource>
 </RCC>

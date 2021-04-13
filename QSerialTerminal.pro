@@ -82,14 +82,14 @@ HEADERS += \
     src/Misc/Utilities.h \
     src/Serial/Console.h \
     src/Serial/Manager.h \
-    src/Serial/FileSender.h \
+    src/Serial/FileTransmission.h \
     src/UI/TerminalWidget.h
 
 SOURCES += \
     src/Misc/Utilities.cpp \
     src/Serial/Console.cpp \
     src/Serial/Manager.cpp \
-    src/Serial/FileSender.cpp \
+    src/Serial/FileTransmission.cpp \
     src/UI/TerminalWidget.cpp \
     src/main.cpp
 

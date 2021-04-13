@@ -160,13 +160,20 @@ Page {
     Widgets.Terminal {
         id: _terminal
         anchors.fill: parent
-        //anchors.margins: app.spacing
+        onTransmissionClicked: _fileTransmission.showNormal()
     }
 
     //
-    // Serial setup button
+    // Serial setup dialog
     //
     Windows.SerialSetup {
         id: _serialSetup
+    }
+
+    //
+    // File transmission dialog
+    //
+    Windows.FileTransmission {
+        id: _fileTransmission
     }
 }

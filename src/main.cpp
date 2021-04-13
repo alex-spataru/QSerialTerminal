@@ -32,6 +32,7 @@
 #include <Serial/Console.h>
 #include <Serial/Manager.h>
 #include <UI/TerminalWidget.h>
+#include <Serial/FileTransmission.h>
 
 #ifdef Q_OS_WIN
 #    include <windows.h>
@@ -77,6 +78,7 @@ int main(int argc, char **argv)
     auto manager = Serial::Manager::getInstance();
     auto console = Serial::Console::getInstance();
     auto utilities = Misc::Utilities::getInstance();
+    auto fileTransmission = Serial::FileTransmission::getInstance();
 
     // Register custom QML properties
     qmlRegisterType<UI::TerminalWidget>("UI", 1, 0, "TerminalWidget");
@@ -94,6 +96,7 @@ int main(int argc, char **argv)
     c->setContextProperty("Cpp_AppName", app.applicationName());
     c->setContextProperty("Cpp_AppVersion", app.applicationVersion());
     c->setContextProperty("Cpp_AppOrganization", app.organizationName());
+    c->setContextProperty("Cpp_Serial_FileTransmission", fileTransmission);
     c->setContextProperty("Cpp_AppOrganizationDomain", app.organizationDomain());
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 

@@ -95,6 +95,7 @@ class Manager : public QObject
 signals:
     void tx();
     void rx();
+    void closed();
     void portChanged();
     void parityChanged();
     void baudRateChanged();

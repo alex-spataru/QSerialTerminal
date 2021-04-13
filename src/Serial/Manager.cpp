@@ -377,6 +377,9 @@ void Manager::disconnectDevice()
 
     // Reset pointer
     m_port = nullptr;
+
+    // Emit signals
+    emit closed();
     emit portChanged();
     emit connectedChanged();
     emit availablePortsChanged();

@@ -26,16 +26,20 @@
 #include <QFile>
 #include <QTimer>
 #include <QObject>
+#include <QTextStream>
 
 namespace Serial
 {
-class FileSender : public QObject
+class FileTransmission : public QObject
 {
     // clang-format off
     Q_OBJECT
     Q_PROPERTY(bool fileOpen
                READ fileOpen
                NOTIFY fileChanged)
+    Q_PROPERTY(bool active
+               READ active
+               NOTIFY activeChanged)
     Q_PROPERTY(QString fileName
                READ fileName
                NOTIFY fileChanged)
@@ -47,17 +51,20 @@ class FileSender : public QObject
                NOTIFY transmissionProgressChanged)
     Q_PROPERTY(int lineTransmissionInterval
                READ lineTransmissionInterval
+               WRITE setLineTransmissionInterval
                NOTIFY lineTransmissionIntervalChanged)
     // clang-format on
 
 signals:
     void fileChanged();
+    void activeChanged();
     void transmissionProgressChanged();
     void lineTransmissionIntervalChanged();
 
 public:
-    static FileSender *getInstance();
+    static FileTransmission *getInstance();
 
+    bool active() const;
     bool fileOpen() const;
     QString fileName() const;
     QString fileSize() const;
@@ -69,20 +76,19 @@ public slots:
     void closeFile();
     void stopTransmission();
     void beginTransmission();
-    void setLineTransmissionInterval(const int interval);
+    void setLineTransmissionInterval(const int msec);
 
 private slots:
     void sendLine();
 
 private:
-    FileSender();
-    ~FileSender();
+    FileTransmission();
+    ~FileTransmission();
 
 private:
     QFile m_file;
     QTimer m_timer;
-    quint64 m_sentBytes;
-    int m_transmissionMode;
+    QTextStream *m_stream;
 };
 }
 
