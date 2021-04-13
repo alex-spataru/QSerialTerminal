@@ -18,6 +18,15 @@ Features:
 
 ![Screenshot](doc/screenshot.png)
 
-## Default licence
+## Compiling the application
 
-This repository is comes by default with the [MIT License](LICENSE.md). You can change it for your own needs, I won't hold a grudge against you if you need a proprietary license.
+Once you have Qt installed, open *QSerialTerminal.pro* in Qt Creator and click the "Run" button.
+
+Alternatively, you can also use the following commands:
+
+	qmake
+	make -j4
+
+## Licence
+
+This project is released under the terms and conditions of the [MIT License](LICENSE.md).
