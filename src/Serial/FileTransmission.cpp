@@ -25,13 +25,21 @@
 
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QApplication>
 
 using namespace Serial;
 
+/*
+ * Only instance of the class
+ */
 static FileTransmission *INSTANCE = Q_NULLPTR;
 
+/**
+ * Constructor function
+ */
 FileTransmission::FileTransmission()
 {
+    // Set stream object pointer to null
     m_stream = Q_NULLPTR;
 
     // Send a line to the serial device periodically
@@ -42,13 +50,22 @@ FileTransmission::FileTransmission()
     // Stop transmission if serial device is disconnected
     auto mgr = Manager::getInstance();
     connect(mgr, &Manager::closed, this, &FileTransmission::stopTransmission);
+
+    // Close file before application quits
+    connect(qApp, &QApplication::aboutToQuit, this, &FileTransmission::closeFile);
 }
 
+/**
+ * Destructor function
+ */
 FileTransmission::~FileTransmission()
 {
     closeFile();
 }
 
+/**
+ * Returns the only instance of the class
+ */
 FileTransmission *FileTransmission::getInstance()
 {
     if (!INSTANCE)
@@ -57,16 +74,26 @@ FileTransmission *FileTransmission::getInstance()
     return INSTANCE;
 }
 
+/**
+ * Returns @c true if the application is currently transmitting a file through
+ * the serial port.
+ */
 bool FileTransmission::active() const
 {
     return m_timer.isActive();
 }
 
+/**
+ * Returns @c true if a file is currently selected for transmission
+ */
 bool FileTransmission::fileOpen() const
 {
     return m_file.isOpen();
 }
 
+/**
+ * Returns the name & extension of the currently selected file
+ */
 QString FileTransmission::fileName() const
 {
     if (!fileOpen())
@@ -75,35 +102,9 @@ QString FileTransmission::fileName() const
     return QFileInfo(m_file).fileName();
 }
 
-QString FileTransmission::fileSize() const
-{
-    QString value;
-    QString units;
-    auto size = m_file.size();
-
-    if (size < 1024)
-    {
-        value = QString::number(size);
-        units = "bytes";
-    }
-
-    else if (size >= 1024 && size < 1024 * 1024)
-    {
-        double kb = static_cast<double>(size) / 1024.0;
-        value = QString::number(kb, 'f', 2);
-        units = "KB";
-    }
-
-    else
-    {
-        double mb = static_cast<double>(size) / (1024 * 1024.0);
-        value = QString::number(mb, 'f', 2);
-        units = "MB";
-    }
-
-    return QString("%1 %2").arg(value).arg(units);
-}
-
+/**
+ * Returns the file transmission progress in a range from 0 to 100
+ */
 int FileTransmission::transmissionProgress() const
 {
     // No file open or invalid size -> progress set to 0%
@@ -116,11 +117,18 @@ int FileTransmission::transmissionProgress() const
     return qMin(1.0, (txb / len)) * 100;
 }
 
+/**
+ * Returns the number of milliseconds that the application should wait before
+ * sending another line to the serial port device.
+ */
 int FileTransmission::lineTransmissionInterval() const
 {
     return m_timer.interval();
 }
 
+/**
+ * Allows the user to select a file to send to the serial port.
+ */
 void FileTransmission::openFile()
 {
     // Let user select a file to open
@@ -150,6 +158,9 @@ void FileTransmission::openFile()
         qWarning() << "File open error" << m_file.errorString();
 }
 
+/**
+ * Closes the currently selected file
+ */
 void FileTransmission::closeFile()
 {
     // Stop transmitting the file to the serial device
@@ -167,12 +178,21 @@ void FileTransmission::closeFile()
     emit transmissionProgressChanged();
 }
 
+/**
+ * Pauses the file transmission process
+ */
 void FileTransmission::stopTransmission()
 {
     m_timer.stop();
     emit activeChanged();
 }
 
+/**
+ * Starts/resumes the file transmission process.ç
+ *
+ * @note If the file was already transmitted to the serial device, calling
+ *       this function shall restart the file transmission process.
+ */
 void FileTransmission::beginTransmission()
 {
     // Only allow transmission if serial device is open
@@ -195,11 +215,21 @@ void FileTransmission::beginTransmission()
         stopTransmission();
 }
 
+/**
+ * Changes the time interval to wait after sending one line from the
+ * currently selected file.
+ */
 void FileTransmission::setLineTransmissionInterval(const int msec)
 {
     m_timer.setInterval(qMax(0, msec));
 }
 
+/**
+ * Transmits a new line from the selected file to the serial port device.
+ *
+ * @note If EOF is reached, then the transmission process is automatically
+ *       stopped
+ */
 void FileTransmission::sendLine()
 {
     // Transmission disabled, abort

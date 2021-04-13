@@ -43,9 +43,6 @@ class FileTransmission : public QObject
     Q_PROPERTY(QString fileName
                READ fileName
                NOTIFY fileChanged)
-    Q_PROPERTY(QString fileSize
-               READ fileSize
-               NOTIFY fileChanged)
     Q_PROPERTY(int transmissionProgress
                READ transmissionProgress
                NOTIFY transmissionProgressChanged)
@@ -67,7 +64,6 @@ public:
     bool active() const;
     bool fileOpen() const;
     QString fileName() const;
-    QString fileSize() const;
     int transmissionProgress() const;
     int lineTransmissionInterval() const;
 
