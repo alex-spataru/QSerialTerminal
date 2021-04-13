@@ -15,8 +15,7 @@ Features:
 - Export terminal output to file
 - File transmission through the serial port
 
-![Main window screenshot](doc/mainwindow.png)
-![File transmission](doc/file-transmission.png)
+![Main window screenshot](doc/screenshot.png)
 
 ## Compiling the application
 
