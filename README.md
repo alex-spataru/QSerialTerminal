@@ -13,7 +13,7 @@ Features:
 - Line ending control
 - Optional autoscrolling
 - Export terminal output to file
-- File transmission through the serial port
+- File transmission to serial port device
 
 ![Main window screenshot](doc/screenshot.png)
 
