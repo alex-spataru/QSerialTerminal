@@ -85,7 +85,8 @@ QSerialPort *Manager::port() const
 /**
  * Returns @c true if the serial device is open
  */
-bool Manager::connected() const {
+bool Manager::connected() const
+{
     if (port())
         return port()->isOpen();
 
@@ -199,7 +200,8 @@ QStringList Manager::parityList() const
  */
 QStringList Manager::baudRateList() const
 {
-    return QStringList { "1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200" };
+    return QStringList { "1200",  "2400",  "4800",  "9600",
+                         "19200", "38400", "57600", "115200" };
 }
 
 /**
@@ -458,24 +460,24 @@ void Manager::setParity(const quint8 parityIndex)
     // Set parity based on current index
     switch (parityIndex)
     {
-    case 0:
-        m_parity = QSerialPort::NoParity;
-        break;
-    case 1:
-        m_parity = QSerialPort::EvenParity;
-        break;
-    case 2:
-        m_parity = QSerialPort::OddParity;
-        break;
-    case 3:
-        m_parity = QSerialPort::SpaceParity;
-        break;
-    case 4:
-        m_parity = QSerialPort::MarkParity;
-        break;
-    default:
-        m_parity = QSerialPort::UnknownParity;
-        break;
+        case 0:
+            m_parity = QSerialPort::NoParity;
+            break;
+        case 1:
+            m_parity = QSerialPort::EvenParity;
+            break;
+        case 2:
+            m_parity = QSerialPort::OddParity;
+            break;
+        case 3:
+            m_parity = QSerialPort::SpaceParity;
+            break;
+        case 4:
+            m_parity = QSerialPort::MarkParity;
+            break;
+        default:
+            m_parity = QSerialPort::UnknownParity;
+            break;
     }
 
     // Update serial port config.
@@ -506,21 +508,21 @@ void Manager::setDataBits(const quint8 dataBitsIndex)
     // Obtain data bits value from current index
     switch (dataBitsIndex)
     {
-    case 0:
-        m_dataBits = QSerialPort::Data5;
-        break;
-    case 1:
-        m_dataBits = QSerialPort::Data6;
-        break;
-    case 2:
-        m_dataBits = QSerialPort::Data7;
-        break;
-    case 3:
-        m_dataBits = QSerialPort::Data8;
-        break;
-    default:
-        m_dataBits = QSerialPort::UnknownDataBits;
-        break;
+        case 0:
+            m_dataBits = QSerialPort::Data5;
+            break;
+        case 1:
+            m_dataBits = QSerialPort::Data6;
+            break;
+        case 2:
+            m_dataBits = QSerialPort::Data7;
+            break;
+        case 3:
+            m_dataBits = QSerialPort::Data8;
+            break;
+        default:
+            m_dataBits = QSerialPort::UnknownDataBits;
+            break;
     }
 
     // Update serial port configuration
@@ -551,18 +553,18 @@ void Manager::setStopBits(const quint8 stopBitsIndex)
     // Obtain stop bits value from current index
     switch (stopBitsIndex)
     {
-    case 0:
-        m_stopBits = QSerialPort::OneStop;
-        break;
-    case 1:
-        m_stopBits = QSerialPort::OneAndHalfStop;
-        break;
-    case 2:
-        m_stopBits = QSerialPort::TwoStop;
-        break;
-    default:
-        m_stopBits = QSerialPort::UnknownStopBits;
-        break;
+        case 0:
+            m_stopBits = QSerialPort::OneStop;
+            break;
+        case 1:
+            m_stopBits = QSerialPort::OneAndHalfStop;
+            break;
+        case 2:
+            m_stopBits = QSerialPort::TwoStop;
+            break;
+        default:
+            m_stopBits = QSerialPort::UnknownStopBits;
+            break;
     }
 
     // Update serial port configuration
@@ -593,18 +595,18 @@ void Manager::setFlowControl(const quint8 flowControlIndex)
     // Obtain flow control value from current index
     switch (flowControlIndex)
     {
-    case 0:
-        m_flowControl = QSerialPort::NoFlowControl;
-        break;
-    case 1:
-        m_flowControl = QSerialPort::HardwareControl;
-        break;
-    case 2:
-        m_flowControl = QSerialPort::SoftwareControl;
-        break;
-    case 3:
-        m_flowControl = QSerialPort::UnknownFlowControl;
-        break;
+        case 0:
+            m_flowControl = QSerialPort::NoFlowControl;
+            break;
+        case 1:
+            m_flowControl = QSerialPort::HardwareControl;
+            break;
+        case 2:
+            m_flowControl = QSerialPort::SoftwareControl;
+            break;
+        case 3:
+            m_flowControl = QSerialPort::UnknownFlowControl;
+            break;
     }
 
     // Update serial port configuration

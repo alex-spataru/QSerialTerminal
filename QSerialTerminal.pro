@@ -79,17 +79,17 @@ INCLUDEPATH += $$PWD/src
 
 HEADERS += \
     src/AppInfo.h \
-    src/CSV/Sender.h \
     src/Misc/Utilities.h \
     src/Serial/Console.h \
     src/Serial/Manager.h \
+    src/Serial/FileSender.h \
     src/UI/TerminalWidget.h
 
 SOURCES += \
-    src/CSV/Sender.cpp \
     src/Misc/Utilities.cpp \
     src/Serial/Console.cpp \
     src/Serial/Manager.cpp \
+    src/Serial/FileSender.cpp \
     src/UI/TerminalWidget.cpp \
     src/main.cpp
 
