@@ -13,8 +13,10 @@ Features:
 - Line ending control
 - Optional autoscrolling
 - Export terminal output to file
+- File transmission through the serial port
 
-![Screenshot](doc/screenshot.png)
+![Main window screenshot](doc/mainwindow.png)
+![File transmission](doc/file-transmission.png)
 
 ## Compiling the application
 
