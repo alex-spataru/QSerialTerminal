@@ -14,7 +14,7 @@ CONFIG += c++11
 #-------------------------------------------------------------------------------
 
 TEMPLATE = app
-TARGET = qserialterminal
+TARGET = QSerialTerminal
 
 CONFIG += qtc_runnable
 CONFIG += resources_big
@@ -60,6 +60,8 @@ macx* {
 }
 
 linux:!android {
+    TARGET = qserialterminal
+    
     target.path = /usr/bin
     icon.path = /usr/share/pixmaps
     desktop.path = /usr/share/applications
