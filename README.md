@@ -14,8 +14,6 @@ Features:
 - Optional autoscrolling
 - Export terminal output to file
 
-## Screenshot of UI & features
-
 ![Screenshot](doc/screenshot.png)
 
 ## Compiling the application
