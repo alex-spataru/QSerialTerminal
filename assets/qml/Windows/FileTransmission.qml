@@ -165,8 +165,11 @@ Window {
                 Button {
                     Layout.alignment: Qt.AlignBottom
                     checked: Cpp_Serial_FileTransmission.active
-                    text: Cpp_Serial_FileTransmission.active ? qsTr("Stop transmission") :
-                                                               qsTr("Begin transmission")
+                    text: Cpp_Serial_FileTransmission.transmissionProgress > 0 ?
+                              (Cpp_Serial_FileTransmission.active ? qsTr("Pause transmission") :
+                                                                    qsTr("Resume transmission")) :
+                              (Cpp_Serial_FileTransmission.active ? qsTr("Stop transmission") :
+                                                                    qsTr("Begin transmission"))
                     onClicked: {
                         if (Cpp_Serial_FileTransmission.active)
                             Cpp_Serial_FileTransmission.stopTransmission()
