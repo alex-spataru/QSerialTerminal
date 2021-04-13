@@ -23,10 +23,10 @@ Unicode True
 !include "FileFunc.nsh"
 !include "LogicLib.nsh"
 
-!define APPNAME                      "qserialterminalinal"
-!define EXECNAME                     "qserialterminal"
+!define APPNAME                      "QSerialTerminal"
+!define EXECNAME                     "QSerialTerminal"
 !define COMPANYNAME                  "Alex Spataru"
-!define DESCRIPTION                  "Serial interface application"
+!define DESCRIPTION                  "Simple serial port terminal application"
 !define VERSIONMAJOR                 1
 !define VERSIONMINOR                 0
 !define VERSIONBUILD                 0
