@@ -77,8 +77,9 @@ Control {
     // Save settings
     //
     Settings {
+        property alias echo: echoCheck.checked
+        property alias timestamp: timestampCheck.checked
         property alias autoscroll: autoscrollCheck.checked
-        property alias vt100Enabled: textEdit.vt100emulation
         property alias lineEnding: lineEndingCombo.currentIndex
         property alias displayMode: displayModeCombo.currentIndex
     }
@@ -165,7 +166,7 @@ Control {
             focus: true
             readOnly: true
             font.pixelSize: 12
-            vt100emulation: true
+            vt100emulation: false
             centerOnScroll: false
             undoRedoEnabled: false
             Layout.fillWidth: true
@@ -272,7 +273,7 @@ Control {
             }
 
             //
-            // Send file button
+            // Send button
             //
             Button {
                 height: 24
@@ -300,6 +301,28 @@ Control {
                 onCheckedChanged: {
                     if (Cpp_Serial_Console.autoscroll != checked)
                         Cpp_Serial_Console.autoscroll = checked
+                }
+            }
+
+            CheckBox {
+                id: timestampCheck
+                text: qsTr("Timestamp")
+                Layout.alignment: Qt.AlignVCenter
+                checked: Cpp_Serial_Console.showTimestamp
+                onCheckedChanged: {
+                    if (Cpp_Serial_Console.showTimestamp != checked)
+                        Cpp_Serial_Console.showTimestamp = checked
+                }
+            }
+
+            CheckBox {
+                id: echoCheck
+                text: qsTr("Show TX data")
+                Layout.alignment: Qt.AlignVCenter
+                checked: Cpp_Serial_Console.echo
+                onCheckedChanged: {
+                    if (Cpp_Serial_Console.echo != checked)
+                        Cpp_Serial_Console.echo = checked
                 }
             }
 

@@ -508,14 +508,21 @@ void Console::append(const QString &string)
  */
 void Console::displayData()
 {
-    QString header;
-    QDateTime dateTime = QDateTime::currentDateTime();
-    header = dateTime.toString("[HH:mm:ss.zzz] ") + "Read data:\n";
-
     if (!m_dataBuffer.isEmpty())
-        append(header + dataToString(m_dataBuffer) + "\n");
+    {
+        if (showTimestamp())
+        {
+            QString header;
+            QDateTime dateTime = QDateTime::currentDateTime();
+            header = dateTime.toString("[HH:mm:ss.zzz] ") + "Read data:\n";
+            append(header + dataToString(m_dataBuffer) + "\n");
+        }
 
-    m_dataBuffer.clear();
+        else
+            append(dataToString(m_dataBuffer));
+
+        m_dataBuffer.clear();
+    }
 }
 
 /**
@@ -525,12 +532,19 @@ void Console::displayData()
  */
 void Console::onDataSent(const QByteArray &data)
 {
-    QString header;
-    QDateTime dateTime = QDateTime::currentDateTime();
-    header = dateTime.toString("[HH:mm:ss.zzz] ") + "Written data:\n";
+    if (!data.isEmpty() && echo())
+    {
+        if (showTimestamp())
+        {
+            QString header;
+            QDateTime dateTime = QDateTime::currentDateTime();
+            header = dateTime.toString("[HH:mm:ss.zzz] ") + "Written data:\n";
+            append(header + dataToString(data) + "\n\n");
+        }
 
-    if (!data.isEmpty())
-        append(header + dataToString(data) + "\n\n");
+        else
+            append(dataToString(data) + "\n");
+    }
 }
 
 /**
