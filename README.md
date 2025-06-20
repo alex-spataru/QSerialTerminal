@@ -18,6 +18,8 @@ Features:
 
 ![Main window screenshot](doc/screenshot.png)
 
+For more advanced features, and active development, take a look at [Serial Studio](https://github.com/serial-studio/serial-studio).
+
 ## Compiling the application
 
 Once you have Qt installed, open *QSerialTerminal.pro* in Qt Creator and click the "Run" button.
